@@ -15,8 +15,6 @@ Half Pipe
         height: height/2
         zIndex: 1
 
-      depthsSprites = [Sprite.loadByName("depths0"), Sprite.loadByName("depths1")]
-
       self = GameObject(I)
 
       self.attrAccessor "pipe"
@@ -29,8 +27,5 @@ Half Pipe
 
       self.on "draw", (canvas) ->
         offset = I.x.mod(32)
-
-        canvas.withTransform Matrix.translation(-I.width/2, 0), (canvas) ->
-          depthsSprites.wrap((I.age / 8).floor()).fill(canvas, 0, I.height/2, I.width, I.height)
 
       return self

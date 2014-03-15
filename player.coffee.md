@@ -150,4 +150,10 @@ Player
 
           I.velocity = I.velocity.add(GRAVITY)
 
+      self.extend
+        speedUp: (amount) ->
+          score "Speed Up!", 10
+
+          I.waterSpeed += amount
+
       return self

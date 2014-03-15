@@ -50,5 +50,6 @@ Register our GameObjects.
     engine.register "GameOver", require "./game_over"
     engine.register "Player", require "./player"
     engine.register "Pipe", require "./pipe"
+    engine.register "Powerup", require "./powerup"
     engine.register "Text", require "./text"
     engine.register "Score", require "./score"

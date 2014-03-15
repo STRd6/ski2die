@@ -71,6 +71,9 @@ Get the app size from our config.
     clock = 0
     engine.on "update", ->
       clock += 1
+      
+      if clock % 300 is 0
+        engine.add "Powerup"
 
     restartGame = ->
       engine.objects().invoke "destroy"
