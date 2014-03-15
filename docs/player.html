@@ -41,12 +41,15 @@ Base = require <span class="string">"./base"</span>
 module.<span class="function"><span class="title">exports</span></span> = (I={}) -&gt;
   defaults I,
     airborne: <span class="literal">true</span>
+    launchedAt: <span class="number">0</span>
+    landedAt: <span class="number">0</span>
     distance: <span class="number">0</span>
     heading: Math.TAU / <span class="number">4</span>
     spriteName: <span class="string">"player"</span>
     launchBoost: <span class="number">1.5</span>
     radius: <span class="number">8</span>
     rotationVelocity: Math.TAU / <span class="number">64</span>
+    rotationAccumulator: <span class="number">0</span>
     waterSpeed: <span class="number">5</span>
     score: <span class="number">0</span>
     velocity: Point(<span class="number">0</span>, <span class="number">0</span>)
@@ -89,16 +92,27 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
 
     Sound.play(<span class="string">"land"</span>)
 
+  <span class="function"><span class="title">score</span></span> = (name, value=<span class="number">0</span>) -&gt;
+    I.score += value
+
+    engine.add <span class="string">"Text"</span>,
+      text: name
+      x: I.x
+      y: I.y
+
   launch = () -&gt;
     I.airborne = <span class="literal">true</span>
     I.velocity = I.velocity.norm(I.launchBoost * I.waterSpeed)
 
+    <span class="keyword">if</span> (I.age - I.launchedAt) &lt; <span class="number">0.25</span>
+      score <span class="string">"5-0"</span>, <span class="number">1</span>
+    <span class="keyword">else</span>
+      score <span class="string">"Launchin!"</span>
+
+    I.launchedAt = I.age
+
     Sound.play(<span class="string">"splash"</span>)
 
-    engine.add <span class="string">"Text"</span>,
-      text: <span class="string">"Launchin!"</span>
-      x: I.x
-      y: I.y
 
   self.<span class="literal">on</span> <span class="string">"drawDebug"</span>, (canvas) -&gt;
     canvas.strokeColor(<span class="string">"rgba(0, 255, 0, 0.75)"</span>)
@@ -122,14 +136,6 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
       wipeout(<span class="string">"a rock"</span>)
       <span class="keyword">return</span>
 
-    hitDestruction = <span class="literal">false</span>
-    engine.find(<span class="string">".destruction"</span>).each (destruction) -&gt;
-      <span class="keyword">if</span> I.x &lt; destruction.I.x
-        hitDestruction = <span class="literal">true</span>
-    <span class="keyword">if</span> hitDestruction
-      wipeout(<span class="string">"a rogue wave"</span>)
-      <span class="keyword">return</span>
-
     pipe = engine.find(<span class="string">".pipe"</span>).first()
     waterLevel = pipe.top()
     depthsLevel = pipe.bottom()
@@ -139,10 +145,23 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
 
     <span class="keyword">if</span> keydown.left
       I.heading -= headingChange
+
+      <span class="keyword">if</span> I.airborne
+        I.rotationAccumulator += headingChange
+
     <span class="keyword">if</span> keydown.right
       I.heading += headingChange
 
-    <span class="comment"># I.heading = I.heading.constrainRotation()</span>
+      <span class="keyword">if</span> I.airborne
+        I.rotationAccumulator += headingChange
+
+    <span class="keyword">if</span> I.rotationAccumulator &gt; Math.TAU
+      I.rotationAccumulator -= Math.TAU
+      score <span class="string">"360"</span>, <span class="number">10</span>
+
+    <span class="keyword">if</span> I.rotationAccumulator &lt; -Math.TAU
+      I.rotationAccumulator += Math.TAU
+      score <span class="string">"360"</span>, <span class="number">10</span>
 
     setSprite()
 
@@ -151,6 +170,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
     <span class="keyword">else</span> <span class="keyword">if</span> I.y &gt;= waterLevel
       <span class="keyword">if</span> I.airborne
         land()
+        I.rotationAccumulator = <span class="number">0</span>
 
       speed = I.velocity.magnitude()
 
