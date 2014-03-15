@@ -183,6 +183,12 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
 
       I.velocity = I.velocity.add(GRAVITY)
 
+  self.extend
+    speedUp: (amount) -&gt;
+      score <span class="string">"Speed Up!"</span>, <span class="number">10</span>
+
+      I.waterSpeed += amount
+
   <span class="keyword">return</span> self</code></pre>
 </div>
         </li>

@@ -113,6 +113,9 @@ clock = <span class="number">0</span>
 engine.<span class="literal">on</span> <span class="string">"update"</span>, -&gt;
   clock += <span class="number">1</span>
 
+  <span class="keyword">if</span> clock % <span class="number">300</span> <span class="keyword">is</span> <span class="number">0</span>
+    engine.add <span class="string">"Powerup"</span>
+
 <span class="function"><span class="title">restartGame</span></span> = -&gt;
   engine.objects().invoke <span class="string">"destroy"</span>
 
