@@ -8,6 +8,7 @@ Display a score in the upper right of the screen.
     module.exports = (I={}) ->
       defaults I,
         duration: 2
+        zIndex: 900
 
       self = GameObject(I)
 

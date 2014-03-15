@@ -8,12 +8,15 @@ Player
     module.exports = (I={}) ->
       defaults I,
         airborne: true
+        launchedAt: 0
+        landedAt: 0
         distance: 0
         heading: Math.TAU / 4
         spriteName: "player"
         launchBoost: 1.5
         radius: 8
         rotationVelocity: Math.TAU / 64
+        rotationAccumulator: 0
         waterSpeed: 5
         score: 0
         velocity: Point(0, 0)
@@ -56,16 +59,27 @@ Player
 
         Sound.play("land")
 
+      score = (name, value=0) ->
+        I.score += value
+
+        engine.add "Text",
+          text: name
+          x: I.x
+          y: I.y
+
       launch = () ->
         I.airborne = true
         I.velocity = I.velocity.norm(I.launchBoost * I.waterSpeed)
 
+        if (I.age - I.launchedAt) < 0.25
+          score "5-0", 1
+        else
+          score "Launchin!"
+
+        I.launchedAt = I.age
+
         Sound.play("splash")
         
-        engine.add "Text",
-          text: "Launchin!"
-          x: I.x
-          y: I.y
 
       self.on "drawDebug", (canvas) ->
         canvas.strokeColor("rgba(0, 255, 0, 0.75)")
@@ -89,14 +103,6 @@ Player
           wipeout("a rock")
           return
 
-        hitDestruction = false
-        engine.find(".destruction").each (destruction) ->
-          if I.x < destruction.I.x
-            hitDestruction = true
-        if hitDestruction
-          wipeout("a rogue wave")
-          return
-
         pipe = engine.find(".pipe").first()
         waterLevel = pipe.top()
         depthsLevel = pipe.bottom()
@@ -106,10 +112,23 @@ Player
 
         if keydown.left
           I.heading -= headingChange
+          
+          if I.airborne
+            I.rotationAccumulator += headingChange
+
         if keydown.right
           I.heading += headingChange
 
-        # I.heading = I.heading.constrainRotation()
+          if I.airborne
+            I.rotationAccumulator += headingChange
+        
+        if I.rotationAccumulator > Math.TAU
+          I.rotationAccumulator -= Math.TAU
+          score "360", 10
+
+        if I.rotationAccumulator < -Math.TAU
+          I.rotationAccumulator += Math.TAU
+          score "360", 10
 
         setSprite()
 
@@ -118,6 +137,7 @@ Player
         else if I.y >= waterLevel
           if I.airborne
             land()
+            I.rotationAccumulator = 0
 
           speed = I.velocity.magnitude()
 
