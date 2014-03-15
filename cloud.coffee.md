@@ -12,16 +12,16 @@ Just floating along in the background.
         spriteName: "cloud"
         height: 32
         width: 128
-        y: -60 + rand(240)
+        y: 240
         zIndex: 0
 
       self = Base(I)
 
       self.on "update", ->
-        destruction = engine.find(".destruction").first()
-
-        if destruction
-          if I.x < destruction.I.x - I.width
-            I.active = false
+        if I.x < -400
+          I.x += 1600
+        
+        if I.x > 1200
+          I.x -= 1600
 
       self

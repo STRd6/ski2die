@@ -15,6 +15,7 @@ Player
         radius: 8
         rotationVelocity: Math.TAU / 64
         waterSpeed: 5
+        score: 0
         velocity: Point(0, 0)
         zIndex: 5
 
@@ -60,6 +61,11 @@ Player
         I.velocity = I.velocity.norm(I.launchBoost * I.waterSpeed)
 
         Sound.play("splash")
+        
+        engine.add "Text",
+          text: "Launchin!"
+          x: I.x
+          y: I.y
 
       self.on "drawDebug", (canvas) ->
         canvas.strokeColor("rgba(0, 255, 0, 0.75)")
@@ -72,8 +78,6 @@ Player
       self.on "update", ->
         I.x += I.velocity.x
         I.y += I.velocity.y
-
-        I.waterSpeed = 5 + I.age / 30
 
         circle = self.circle()
         hitRock = false

@@ -1,5 +1,5 @@
-Water
-=====
+Half Pipe
+=========
 
     {Util:{defaults}, GameObject} = require "dust"
     
@@ -10,7 +10,7 @@ Water
         color: "white"
         pipe: true
         x: 0
-        y: 240
+        y: height * 3 / 4
         width: width
         height: height/2
         zIndex: 1
@@ -24,6 +24,8 @@ Water
       self.on "update", ->
         if player = engine.find("Player").first()
           I.x = player.I.x
+        else
+          I.x = width/2
 
       self.on "draw", (canvas) ->
         offset = I.x.mod(32)

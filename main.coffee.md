@@ -20,9 +20,10 @@ Get the app size from our config.
 
       engine.add "Score"
 
-      4.times (n) ->
+      12.times (n) ->
         engine.add "Cloud",
-          x: n * 128
+          x: n * (1600) / 12
+          y: ((((n * 351) % 1279) % 240) % 7) * 40
 
       engine.add "Pipe"
 

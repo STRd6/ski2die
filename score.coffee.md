@@ -12,14 +12,14 @@ Display a score in the upper right of the screen.
 
       self.on "update", ->
         if player = engine.first("Player")
-          value = player.I.distance
+          value = player.I.score
 
       self.off "draw"
       self.on "overlay", (canvas) ->
-        canvas.drawText
+        canvas.centerText
           color: "white"
           font: "24px bold 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif"
-          text: (value / 100).toFixed(2)
+          text: value
           x: 400
           y: 30
 

@@ -16,8 +16,7 @@ Game Over
 
         # TODO: Extract multiline text rendering
         lines = """
-          surf'd for #{(I.distance / 100).toFixed(2)} meters
-          succumb'd to #{I.causeOfDeath}
+          BIFFED IT! :(
         """.split("\n")
 
         canvas.font "24px bold 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif"
