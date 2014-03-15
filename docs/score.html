@@ -44,14 +44,14 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
 
   self.<span class="literal">on</span> <span class="string">"update"</span>, -&gt;
     <span class="keyword">if</span> player = engine.first(<span class="string">"Player"</span>)
-      value = player.I.distance
+      value = player.I.score
 
   self.<span class="literal">off</span> <span class="string">"draw"</span>
   self.<span class="literal">on</span> <span class="string">"overlay"</span>, (canvas) -&gt;
-    canvas.drawText
+    canvas.centerText
       color: <span class="string">"white"</span>
       font: <span class="string">"24px bold 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif"</span>
-      text: (value / <span class="number">100</span>).toFixed(<span class="number">2</span>)
+      text: value
       x: <span class="number">400</span>
       y: <span class="number">30</span>
 

@@ -61,9 +61,10 @@ engine.I.backgroundColor = <span class="string">"skyblue"</span>
 
   engine.add <span class="string">"Score"</span>
 
-  <span class="number">4.</span>times (n) -&gt;
+  <span class="number">12.</span>times (n) -&gt;
     engine.add <span class="string">"Cloud"</span>,
-      x: n * <span class="number">128</span>
+      x: n * (<span class="number">1600</span>) / <span class="number">12</span>
+      y: ((((n * <span class="number">351</span>) % <span class="number">1279</span>) % <span class="number">240</span>) % <span class="number">7</span>) * <span class="number">40</span>
 
   engine.add <span class="string">"Pipe"</span>
 

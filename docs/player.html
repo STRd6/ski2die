@@ -48,6 +48,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
     radius: <span class="number">8</span>
     rotationVelocity: Math.TAU / <span class="number">64</span>
     waterSpeed: <span class="number">5</span>
+    score: <span class="number">0</span>
     velocity: Point(<span class="number">0</span>, <span class="number">0</span>)
     zIndex: <span class="number">5</span>
 
@@ -94,6 +95,11 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
 
     Sound.play(<span class="string">"splash"</span>)
 
+    engine.add <span class="string">"Text"</span>,
+      text: <span class="string">"Launchin!"</span>
+      x: I.x
+      y: I.y
+
   self.<span class="literal">on</span> <span class="string">"drawDebug"</span>, (canvas) -&gt;
     canvas.strokeColor(<span class="string">"rgba(0, 255, 0, 0.75)"</span>)
 
@@ -105,8 +111,6 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
   self.<span class="literal">on</span> <span class="string">"update"</span>, -&gt;
     I.x += I.velocity.x
     I.y += I.velocity.y
-
-    I.waterSpeed = <span class="number">5</span> + I.age / <span class="number">30</span>
 
     circle = self.circle()
     hitRock = <span class="literal">false</span>

@@ -44,17 +44,17 @@ module.<span class="function"><span class="title">exports</span></span> = (I) -&
     spriteName: <span class="string">"cloud"</span>
     height: <span class="number">32</span>
     width: <span class="number">128</span>
-    y: -<span class="number">60</span> + rand(<span class="number">240</span>)
+    y: <span class="number">240</span>
     zIndex: <span class="number">0</span>
 
   self = Base(I)
 
   self.<span class="literal">on</span> <span class="string">"update"</span>, -&gt;
-    destruction = engine.find(<span class="string">".destruction"</span>).first()
+    <span class="keyword">if</span> I.x &lt; -<span class="number">400</span>
+      I.x += <span class="number">1600</span>
 
-    <span class="keyword">if</span> destruction
-      <span class="keyword">if</span> I.x &lt; destruction.I.x - I.width
-        I.active = <span class="literal">false</span>
+    <span class="keyword">if</span> I.x &gt; <span class="number">1200</span>
+      I.x -= <span class="number">1600</span>
 
   self</code></pre>
 </div>
